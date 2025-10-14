@@ -13,7 +13,7 @@ const userSchema = new Schema({
     },
     salt:{
         type: String,
-        required: true
+        // required: true
     },
     password: {
         type: String,
@@ -26,7 +26,7 @@ const userSchema = new Schema({
     role:{
         type: String,
         enum: ['USER', 'ADMIN'],
-        default: 'USER',
+        default: 'USER', 
     }
 }, {timestamps: true}
 );
@@ -49,5 +49,3 @@ userSchema.pre('save', function(next) {
 });
 
 module.exports = model('User', userSchema);
-
-module.exports = userSchema;
