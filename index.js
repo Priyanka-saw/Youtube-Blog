@@ -1,7 +1,12 @@
 const path = require('path');
 const express = require('express');
 const mongoose = require('mongoose');
- const userRouter = require('./routes/user');
+const userRouter = require('./routes/user');
+const blogRoute = require('./routes/blog');
+
+
+const cookieParser = require('cookie-parser');
+const { checkForAuthenticationCookies } = require('./middlewares/authentication');
 
 
 const app = express();
@@ -16,13 +21,20 @@ app.set('views', path.resolve('./views'));
 // parse URL-encoded bodies (form submissions)
 app.use(express.urlencoded({ extended: true }));
 
+app.use(cookieParser());
+app.use(checkForAuthenticationCookies('token'));
+
+
 // mount user routes under /user
 app.use('/user', userRouter);
+app.use('/blog', blogRoute);
 
 
 app.get('/', (req, res) => {
-  res.render('home');
+  res.render('home', { user: req.user });
+
 });
 
 app.listen(port, () => console.log(`Server started at Port: ${port}`));
+
 
