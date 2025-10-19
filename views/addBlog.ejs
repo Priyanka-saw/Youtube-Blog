@@ -12,15 +12,38 @@
 
     <div class="container mt-4">
 
-        <form action="/blog/add" method="POST">
+        <form action="/blog" method="POST" enctype="multipart/form-data">
+
+            <div class="mb-3">
+                <label for="coverImage" class="form-label">Cover Image</label>
+                <input 
+                type="file" 
+                class="form-control" 
+                id="coverImage" 
+                name="coverImage" 
+                required
+                >
+            </div>
+
             <div class="mb-3">
                 <label for="title" class="form-label">Title</label>
-                <input type="text" class="form-control" id="title" name="title" required>
+                <input type="text" 
+                class="form-control" 
+                id="title" 
+                name="title" 
+                required
+                >
             </div>
 
             <div class="mb-3">
                 <label for="body" class="form-label">Content</label>
-                <textarea class="form-control" id="body" name="body" rows="5" required></textarea>
+                <textarea class="form-control" 
+                id="body" 
+                name="body" 
+                rows="5" 
+                required
+                >
+            </textarea>
             </div>
 
             <button type="submit" class="btn btn-primary">Submit</button>
