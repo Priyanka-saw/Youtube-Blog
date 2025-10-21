@@ -37,14 +37,35 @@ router.get('/:id', async (req, res) => {
 
 
 router.post('/', upload.single('coverImage'), async (req, res) => {
-  const blog = await Blog.create({
-        body,
-        title,
-        createdBy: req.user._id,
-        coverImageURL: `/public/uploads/${req.file.filename}`,
-    });
+    // read form fields from req.body (avoid undeclared identifiers)
+    const { body, title } = req.body;
 
-    return res.redirect(`/blog/${blog._id}`);
+    // require authenticated user to set createdBy (prevents Mongoose validation error)
+    if (!req.user || !req.user._id) {
+        return res.redirect('/user/signin');
+    }
+
+    // normalize uploaded file URL to match express.static serving from ./public
+    const coverImageURL = req.file ? `/uploads/${req.file.filename}` : '/images/default.png';
+
+    try {
+        const blog = await Blog.create({
+            body,
+            title,
+            createdBy: req.user._id,
+            coverImageURL,
+        });
+
+        return res.redirect(`/blog/${blog._id}`);
+    } catch (err) {
+        console.error('Error creating blog:', err);
+        // Render add form with previous input and error details so user can fix validation issues
+        return res.status(400).render('addBlog', {
+            error: err,
+            formData: { title, body },
+            user: req.user,
+        });
+    }
 }); 
 
 

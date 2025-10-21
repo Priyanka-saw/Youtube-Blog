@@ -66,7 +66,10 @@ userSchema.statics.matchPasswordAndGenerateToken = async function (email, passwo
 
 function createTokenForUser(user) {
     const secret = process.env.JWT_SECRET || 'dev_secret_change_me';
-    const payload = { id: user._id.toString(), email: user.email, fullname: user.fullname };
+    
+    // include both _id and id string properties for compatibility
+    const _idStr = user._id ? user._id.toString() : (user.id ? user.id : undefined);
+    const payload = { _id: _idStr, id: _idStr, email: user.email, fullname: user.fullname };
     return jwt.sign(payload, secret);
 }
 

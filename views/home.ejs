@@ -12,12 +12,16 @@
 
         <div class="container mt-4">
             <% blogs.forEach(function(blog) { %>
-                <div class="card" style="width: 18rem; margin-bottom: 20px;">
-                    <img src="<%= blog.coverImageURL %>" class="card-img-top" >
+                                <div class="card" style="width: 18rem; margin-bottom: 20px;">
+                                        <% 
+                                            let img = blog.coverImageURL || '/images/default.png';
+                                            if (img.startsWith('/public/')) img = img.replace(/^\/public/, '');
+                                        %>
+                                        <img src="<%= img %>" class="card-img-top" alt="cover" >
                     <div class="card-body">
                         <h5 class="card-title"><%= blog.title %></h5>
 
-                        <a href="#" class="btn btn-primary">Read</a>
+                        <a href="/blog/<%= blog._id %>" class="btn btn-primary">Read</a>
                     </div>
                 </div>
                 <% }); %>
