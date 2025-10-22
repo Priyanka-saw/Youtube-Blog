@@ -11,23 +11,26 @@
     <%- include('./partials/nav') %>
 
         <div class="container mt-4">
-            <% blogs.forEach(function(blog) { %>
-                                <div class="card" style="width: 18rem; margin-bottom: 20px;">
-                                        <% 
-                                            let img = blog.coverImageURL || '/images/default.png';
-                                            if (img.startsWith('/public/')) img = img.replace(/^\/public/, '');
-                                        %>
-                                        <img src="<%= img %>" class="card-img-top" alt="cover" >
-                    <div class="card-body">
-                        <h5 class="card-title"><%= blog.title %></h5>
+            <div class="row row-col-3">
+                <% blogs.forEach(function(blog) { %>
+                    <div class="col">
+                        <div class="card col" style="width: 18rem; margin-bottom: 13px;">
+                            <% let img=blog.coverImageURL || '/images/default.png' ; if (img.startsWith('/public/'))
+                                img=img.replace(/^\/public/, '' ); %>
+                                <img src="<%= img %>" class="card-img-top" alt="cover">
+                                <div class="card-body">
+                                    <h5 class="card-title">
+                                        <%= blog.title %>
+                                    </h5>
 
-                        <a href="/blog/<%= blog._id %>" class="btn btn-primary">Read</a>
+                                    <a href="/blog/<%= blog._id %>" class="btn btn-primary">Read</a>
+                                </div>
+                        </div>
                     </div>
-                </div>
-                <% }); %>
-        </div>
+                    <% }); %>
+            </div>
 
-        <%- include('./partials/scripts') %>
+            <%- include('./partials/scripts') %>
 
 </body>
 
